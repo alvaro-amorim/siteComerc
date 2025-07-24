@@ -35,7 +35,10 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #FFFFFF; /* Cor de fundo padrão */
+            padding-top: 80px; /* Padrão para mobile: sem padding-top */
         }
+        /* Removido o media query para padding-top, pois o cabeçalho será fixo em todas as telas */
+
         /* Estilo para o vídeo de fundo da seção hero */
         .hero-video {
             position: absolute;
@@ -91,7 +94,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto; /* Habilita scroll se necessário */
+            overflow: auto;
             background-color: rgba(0,0,0,0.4); /* Fundo semi-transparente */
             justify-content: center; /* Centraliza horizontalmente */
             align-items: center; /* Centraliza verticalmente */
@@ -285,12 +288,80 @@
         .overlay.active {
             display: block;
         }
+
+        /* Estilos para o vídeo principal da seção de abertura */
+        #fullscreen-image-section {
+            border-bottom: 20px solid #FFFFFF; /* Linha branca de 20px */
+            background-color: black; /* Fundo preto para as barras do vídeo */
+        }
+        #fullscreen-image-section video {
+            object-fit: contain; /* Em mobile, o vídeo se ajusta, mostrando barras se necessário */
+        }
+
+        @media (min-width: 768px) { /* Para telas maiores que mobile (desktop) */
+            #fullscreen-image-section video {
+                object-fit: cover; /* Em desktop, o vídeo preenche todo o espaço, cortando se necessário */
+            }
+        }
+        /* Correção da cor dos ícones sociais no menu mobile */
+        .mobile-menu .flex a {
+            color: #007ACC; /* Cor primária para os ícones sociais dentro do menu mobile */
+        }
+        .mobile-menu .flex a:hover {
+            color: #005f99; /* Cor de hover para os ícones sociais */
+        }
+        /* Garante que os ícones fab dentro dos links sociais no menu mobile sejam azuis */
+        .mobile-menu .flex a .fab {
+            color: #007ACC !important; /* Força a cor azul para os ícones fab */
+        }
+
+        /* Removido a regra CSS 'header' fixa para que o Tailwind possa controlar via classes */
+        footer {
+            display: flex;
+            align-items: center; /* Centraliza verticalmente o conteúdo */
+            justify-content: center; /* Centraliza horizontalmente o conteúdo */
+            padding: 0 1rem; /* Adiciona padding horizontal e remove vertical */
+            box-sizing: border-box; /* Inclui padding na altura total */
+            /* Removida a altura fixa para permitir que o conteúdo determine a altura */
+            min-height: 40px; /* Altura mínima para garantir que o rodapé não encolha demais */
+        }
+        footer .max-w-6xl {
+            display: flex;
+            flex-direction: column; /* Padrão para mobile: coluna */
+            align-items: center; /* Alinha itens ao centro horizontalmente em mobile */
+            justify-content: center; /* Centraliza verticalmente em mobile */
+            width: 100%;
+            /* Removido height: 100%; para evitar que o conteúdo se estique */
+        }
+        @media (min-width: 768px) {
+            footer .max-w-6xl {
+                flex-direction: row; /* Layout em linha para desktop */
+                justify-content: space-between; /* Distribui o espaço entre os itens */
+                align-items: center; /* Alinha os itens verticalmente */
+            }
+        }
+        footer .max-w-6xl > div { /* Para os divs internos do rodapé (ícones sociais e texto) */
+            display: flex;
+            align-items: center;
+            /* Removido height: 100%; para evitar sobrecarga */
+        }
+        footer .max-w-6xl p { /* Para o texto de copyright */
+            margin: 0; /* Remove margem padrão do parágrafo */
+            line-height: normal; /* Ajusta a altura da linha para caber */
+        }
+        footer .max-w-6xl img { /* Para o logótipo no rodapé */
+            /* Manter h-20 w-20 para o tamanho original */
+            margin-bottom: 0; /* Garante que não haja margem inferior */
+        }
+        footer .max-w-6xl .flex.space-x-6 a { /* Para os ícones sociais no rodapé */
+            margin-bottom: 0; /* Garante que não haja margem inferior */
+            /* Manter text-2xl para o tamanho original */
+        }
     </style>
 </head>
 <body class="font-inter text-gray-800">
 
-    <!-- Cabeçalho -->
-    <header class="bg-white shadow-md py-4 px-generoso flex justify-between items-center fixed w-full z-50 rounded-b-lg select-none">
+    <header class="bg-white shadow-md py-4 px-generoso flex justify-between items-center w-full rounded-b-lg select-none fixed top-0 z-50">
         <div class="flex items-center"> <!-- Este div agrupa o logo e o menu de desktop -->
             <!-- Logo da empresa. Ao clicar, rola para o topo da página -->
             <a href="#fullscreen-image-section">
@@ -304,9 +375,7 @@
                 <a href="#contact_form" class="text-primary hover:text-secondary hover:underline font-medium transition duration-300 rounded-md px-3 py-2">Contato</a>
             </nav>
         </div>
-        <!-- Botões de Ação e Botão de Menu Hambúrguer para Mobile -->
         <div class="flex items-center space-x-4">
-            <!-- Botões de chamada para ação (visíveis em todas as telas) -->
             <a href="https://www.instagram.com/comerc_ias?igsh=MWFwZjVpYWJqaXh5aA==" target="_blank" class="bg-primary text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-secondary transition duration-300 btn-primary hidden md:flex">
                 <i class="fab fa-instagram"></i>
                 <span>Instagram</span>
@@ -316,24 +385,25 @@
                 <span>WhatsApp</span>
             </a>
 
-            <!-- Botão de Menu Hambúrguer (visível apenas em mobile) -->
             <button id="mobile-menu-button" class="md:hidden text-primary text-2xl p-2 rounded-md hover:bg-gray-100 transition duration-300">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <!-- Menu Lateral para Mobile -->
     <div id="mobile-menu" class="mobile-menu md:hidden">
         <button class="close-menu-button" id="close-menu-button">&times;</button>
         <a href="#home" class="text-white hover:bg-primary px-4 py-3">Home</a>
         <a href="#about" class="text-white hover:bg-primary px-4 py-3">Sobre</a>
         <a href="#portfolio" class="text-white hover:bg-primary px-4 py-3">Portfólio</a>
         <a href="#contact_form" class="text-white hover:bg-primary px-4 py-3">Contato</a>
-        <!-- Botões de ação dentro do menu mobile -->
         <div class="flex flex-col space-y-4 p-4 mt-auto">
             <a href="https://www.instagram.com/comerc_ias?igsh=MWFwZjVpYWJqaXh5aA==" target="_blank" class="bg-white text-primary px-4 py-2 rounded-full flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-300">
                 <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.tiktok.com/@comerc.ias?_t=ZM-8yGGSD03msS&_r=1" target="_blank" class="bg-white text-primary px-4 py-2 rounded-full flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-300">
+                <i class="fab fa-tiktok"></i>
                 <span>Instagram</span>
             </a>
             <a href="https://wa.me/5532991147944" target="_blank" class="bg-white text-primary px-4 py-2 rounded-full flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-300">
@@ -343,23 +413,18 @@
         </div>
     </div>
 
-    <!-- Overlay para o fundo escuro do menu mobile -->
     <div id="menu-overlay" class="overlay"></div>
 
-    <!-- Nova Seção de Vídeo Principal que domina a tela -->
-    <div id="fullscreen-image-section" class="relative w-screen overflow-hidden select-none aspect-video md:h-screen">
-        <video class="w-full h-full object-cover" autoplay loop muted playsinline>
-            <source src="assets/videos/video.capa.mp4" type="video/mp4"> <!-- Adicione a URL do seu vídeo principal aqui -->
+    <div id="fullscreen-image-section" class="relative w-full h-full overflow-hidden select-none">
+        <video class="w-full" autoplay loop muted playsinline> <!-- Removido pt-20 aqui -->
+            <source src="assets/videos/video.capa.mp4" type="video/mp4"> <!-- Restaurado o link do vídeo principal -->
             Seu navegador não suporta a tag de vídeo.
         </video>
     </div>
 
-    <!-- Seção Hero (agora abaixo da imagem principal, sem padding superior) -->
     <section id="home" class="relative flex items-center justify-center text-center text-white overflow-hidden select-none py-16">
-        <!-- Vídeo de fundo. Usando placeholder. Substitua pela URL real. -->
         <video class="hero-video" autoplay loop muted playsinline>
-            <source src="assets/videos/james.mp4" type="video/mp4"> <!-- Adicione a URL do seu vídeo de fundo aqui -->
-            Seu navegador não suporta a tag de vídeo.
+            <source src="assets/videos/james.mp4" type="video/mp4"> Seu navegador não suporta a tag de vídeo.
         </video>
         <div class="relative z-10 bg-black bg-opacity-50 p-8 rounded-lg w-full mx-auto shadow-lg">
             <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">Impulsione seu negócio com vídeos IA</h1>
@@ -368,7 +433,6 @@
         </div>
     </section>
 
-    <!-- Seção Sobre -->
     <section id="about" class="py-16 px-generoso bg-white select-none">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12">
             <div class="md:w-1/2">
@@ -387,44 +451,38 @@
                 </p>
             </div>
             <div class="md:w-1/2">
-                <!-- Imagem da seção Sobre. Adicione a URL da imagem da seção Sobre aqui -->
                 <img src="assets/images/servicos.png" alt="Sobre a Comerc IAs" class="rounded-lg shadow-lg w-full h-auto object-cover">
             </div>
         </div>
     </section>
 
-    <!-- Seção Portfólio -->
     <section id="portfolio" class="py-16 px-generoso bg-gray-50 select-none">
         <div class="max-w-6xl mx-auto text-center">
             <h2 class="text-4xl font-bold text-primary mb-12">Portfólio</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Item do Portfólio 1 -->
-                 <!-- Item do Portfólio 3 -->
-                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="2">
-                    <!-- Thumbnail do Portfólio. Adicione a URL da imagem de thumbnail aqui -->
+                <!-- Item 0: Apresentação de Marca -->
+                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="0">
                     <img src="assets/images/foto.comerc.jpg" alt="APRESENTAÇÃO DE MARCA" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <p class="text-lg font-semibold text-primary">APRESENTAÇÃO<br>DE MARCA</p>
                     </div>
                 </div>
-                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="0">
-                    <!-- Thumbnail do Portfólio. Adicione a URL da imagem de thumbnail aqui -->
+                <!-- Item 1: Vídeos Gerados com IA -->
+                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="1">
                     <img src="assets/images/tumb.marcos.png" alt="VÍDEOS IA" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <p class="text-lg font-semibold text-primary">VÍDEOS GERADOS<br> COM IA</p>
                     </div>
                 </div>
-                <!-- Item do Portfólio 2 -->
-                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="1">
-                    <!-- Thumbnail do Portfólio. Adicione a URL da imagem de thumbnail aqui -->
+                <!-- Item 2: Apresentações Comerciais -->
+                <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="2">
                     <img src="assets/images/blue.marine.jpg" alt="APRESENTAÇÕS COMERCIAIS" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <p class="text-lg font-semibold text-primary">APRESENTAÇÕES<br>COMERCIAIS</p>
                     </div>
                 </div>
-                <!-- Item do Portfólio 4 -->
+                <!-- Item 3: Vídeos IA a Partir de Fotos -->
                 <div class="portfolio-item bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer" data-index="3">
-                    <!-- Thumbnail do Portfólio. Adicione a URL da imagem de thumbnail aqui -->
                     <img src="assets/images/foto.tom.jpg" alt="IA A PARTIR DE FOTOS" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <p class="text-lg font-semibold text-primary">VIDEOS IA A PARTIR<br>DE FOTOS</p>
@@ -434,7 +492,6 @@
         </div>
     </section>
 
-    <!-- Seção Formulário de Contato -->
     <section id="contact_form" class="py-16 px-generoso bg-gray-100">
         <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-4xl font-bold text-primary mb-8 text-center select-none">Fale Conosco</h2>
@@ -460,7 +517,6 @@
         </div>
     </section>
 
-    <!-- Modal de Sucesso -->
     <div id="successModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -469,230 +525,260 @@
         </div>
     </div>
 
-    <!-- Modal do Portfólio -->
     <div id="portfolioModal" class="portfolio-modal">
         <div class="portfolio-modal-content">
             <span class="portfolio-close-button">&times;</span>
             <div id="modal-portfolio-media-container" class="w-full md:w-1/2 md:pr-4 mb-4 md:mb-0">
-                <!-- Imagem ou vídeo será inserido aqui pelo JavaScript -->
-            </div>
+                </div>
             <div class="w-full md:w-1/2 md:pl-4 flex flex-col justify-center items-center">
                 <h3 id="modal-portfolio-title" class="text-primary text-3xl font-bold mb-2 text-center md:text-left"></h3>
                 <p id="modal-portfolio-description" class="text-gray-700 text-lg text-center md:text-left"></p>
             </div>
         </div>
     </div>
-    <!-- Rodapé -->
-    <footer class="bg-primary text-white py-8 px-generoso rounded-t-lg select-none relative">
+    <footer class="bg-primary text-white px-generoso rounded-t-lg select-none relative py-8">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center space-y-4 md:space-y-0">
-            <!-- Ícones sociais centralizados -->
-            <div class="flex space-x-6 text-2xl mx-auto md:mx-0">
+            <div class="flex space-x-6 text-lg mx-auto md:mx-0">
                 <a href="https://www.instagram.com/comerc_ias?igsh=MWFwZjVpYWJqaXh5aA==" target="_blank" class="hover:text-secondary transition duration-300"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@comerc.ias?_t=ZM-8yGGSD03msS&_r=1" target="_blank" class="hover:text-secondary transition duration-300"><i class="fab fa-tiktok"></i></a>
                 <a href="https://wa.me/5532991147944" target="_blank" class="hover:text-secondary transition duration-300"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <!-- Texto de direitos autorais centralizado -->
             <p class="text-sm w-full text-center mt-4 md:mt-0">&copy; 2025 Comerc IAs – Todos os direitos reservados.</p>
         </div>
-        <!-- Logo no canto inferior direito -->
-        <div class="absolute bottom-4 right-4 hidden md:block"> <!-- Escondido em mobile, visível em desktop -->
-            <img src="assets/images/logo.arredondada.png" alt="Logo da Empresa" class="h-20 w-20 rounded-md"> <!-- Adicione a URL do seu logo aqui -->
-        </div>
+        <div class="absolute bottom-4 right-4 hidden md:block"> <img src="assets/images/logo.arredondada.png" alt="Logo da Empresa" class="h-20 w-20 rounded-md"> </div>
     </footer>
 
     <script>
-        // Dados dos projetos do portfólio (você pode expandir isso)
-        const portfolioItemsData = [
-            
-            {
-                thumbnail: "assets/images/tumb.marcos.png", // Exemplo de URL para a miniatura do Projeto A
-                media_type: "video",
-                media_url: "assets/videos/reel.marcos.mp4", // Exemplo de URL para a imagem completa do Projeto A
-                title: "Vídeos Gerados com IA",
-                description: `Transformamos ideias criativas em roteiros impactantes e cenas envolventes com o uso de inteligência artificial. Este vídeo mostra como usamos humor, storytelling e tecnologia para divulgar serviços e produtos de forma original, memorável e cativante. Criamos personagens consistentes, construímos cenas realistas e desenvolvemos narrativas que conectam com o público — tudo com agilidade e alto nível visual.
-                👉 Quer uma campanha que chame atenção de verdade? Fale com a gente e transforme sua ideia em um vídeo inesquecível.`
-            },
-            {
-                thumbnail: "assets/images/blue.marine.jpg", // Exemplo de URL para a miniatura do Projeto B
-                media_type: "video",
-                media_url: "assets/videos/apresentacao.talita.mp4", // Exemplo de URL para a imagem completa do Projeto B
-                title: "Apresentações Comerciais",
-                description: `Neste exemplo, usamos IA para desenvolver uma apresentação moderna, dinâmica e visualmente rica para um empreendimento imobiliário. A proposta é substituir slides estáticos por vídeos imersivos que valorizam cada detalhe do seu produto ou serviço, tornando mais fácil conquistar investidores, clientes e parceiros.
-                👉 Apresente seus projetos com o impacto que eles merecem. Solicite sua apresentação em vídeo agora mesmo.`
-            },
-
-            {
-                thumbnail: "assets/images/foto.tom.jpg", // Exemplo de URL para a miniatura do Projeto D
-                media_type: "video", // Exemplo de vídeo
-                media_url: "assets/videos/video.tom.mp4", // Exemplo de URL para o vídeo do Projeto D
-                title: "Vídeos IA a Partir de Fotos",
-                description: `Com apenas uma imagem estática, conseguimos gerar cenas com personagens interagindo, animações realistas e qualidade visual ampliada. Esta tecnologia é ideal para transformar catálogos, portfólios, fotos de produtos ou até mesmo momentos simples em conteúdo altamente compartilhável e profissional.
-                👉 Tem uma foto e quer ver ela ganhar vida? Envie pra gente e descubra o que podemos criar com ela.`
-            },
-            {
-                thumbnail: "assets/images/foto.comerc.jpg", // Exemplo de URL para a miniatura do Projeto C
-                media_type: "video",
-                media_url: "assets/videos/comerc.apresenta.mp4", // Exemplo de URL para a imagem completa do Projeto C
-                title: "Apresentação de Marca",
-                description: `Apresentar sua marca ao mundo nunca foi tão fácil — e tão inovador. Combinamos inteligência artificial, identidade visual e narrativa para criar vídeos institucionais que impressionam desde o primeiro segundo. Neste exemplo, você vê como tornamos a primeira impressão da nossa própria marca algo marcante e inesquecível.
-                👉 Sua marca também merece um vídeo à altura. Entre em contato e vamos criar juntos sua identidade audiovisual.`
-            }
-        ];
-
-        // Função para rolagem suave
-        document.getElementById('hero-button').addEventListener('click', function() {
-            document.getElementById('contact_form').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // Lógica do formulário de contato e modal de sucesso
-        const contactForm = document.getElementById('contactForm');
-        const successModal = document.getElementById('successModal');
-        const closeButton = document.querySelector('#successModal .close-button'); // Seleciona o botão de fechar do modal de sucesso
-
-        contactForm.addEventListener('submit', function(event) {
-            // REMOVIDO: event.preventDefault(); // Não previne mais o envio padrão do formulário
-            // O Formspree irá lidar com o envio e o redirecionamento.
-
-            // A lógica do modal de sucesso e reset do formulário abaixo só será executada
-            // se você implementar o envio via fetch() para o Formspree e não o envio direto do formulário.
-            // Para o envio direto, o Formspree redirecionará a página.
-
-            // Se você quiser manter este modal de sucesso personalizado,
-            // precisará reativar event.preventDefault() e usar a API Fetch para enviar os dados
-            // para o Formspree em segundo plano.
-            // Exemplo:
-            /*
-            event.preventDefault();
-            const formData = new FormData(contactForm);
-            fetch(contactForm.action, {
-                method: contactForm.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+        // Garante que o script só execute após o DOM estar completamente carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dados dos projetos do portfólio (você pode expandir isso)
+            // A ordem dos itens aqui corresponde diretamente aos data-index no HTML.
+            // O item "Apresentação de Marca" está na primeira posição (índice 0).
+            const portfolioItemsData = [
+                {
+                    thumbnail: "assets/images/foto.comerc.jpg", // Miniatura do Projeto C
+                    media_type: "video",
+                    media_url: "assets/videos/comerc.apresenta.mp4", // Vídeo do Projeto C
+                    title: "Apresentação de Marca",
+                    description: `Apresentar sua marca ao mundo nunca foi tão fácil — e tão inovador. Combinamos inteligência artificial, identidade visual e narrativa para criar vídeos institucionais que impressionam desde o primeiro segundo. Neste exemplo, você vê como tornamos a primeira impressão da nossa própria marca algo marcante e inesquecível.
+                    👉 Sua marca também merece um vídeo à altura. Entre em contato e vamos criar juntos sua identidade audiovisual.`
+                },
+                {
+                    thumbnail: "assets/images/tumb.marcos.png", // Miniatura do Projeto A
+                    media_type: "video",
+                    media_url: "assets/videos/reel.marcos.mp4", // Vídeo do Projeto A
+                    title: "Vídeos Gerados com IA",
+                    description: `Transformamos ideias criativas em roteiros impactantes e cenas envolventes com o uso de inteligência artificial. Este vídeo mostra como usamos humor, storytelling e tecnologia para divulgar serviços e produtos de forma original, memorável e cativante. Criamos personagens consistentes, construímos cenas realistas e desenvolvemos narrativas que conectam com o público — tudo com agilidade e alto nível visual.
+                    👉 Quer uma campanha que chame atenção de verdade? Fale com a gente e transforme sua ideia em um vídeo inesquecível.`
+                },
+                {
+                    thumbnail: "assets/images/blue.marine.jpg", // Miniatura do Projeto B
+                    media_type: "video",
+                    media_url: "assets/videos/apresentacao.talita.mp4", // Vídeo do Projeto B
+                    title: "Apresentações Comerciais",
+                    description: `Neste exemplo, usamos IA para desenvolver uma apresentação moderna, dinâmica e visualmente rica para um empreendimento imobiliário. A proposta é substituir slides estáticos por vídeos imersivos que valorizam cada detalhe do seu produto ou serviço, tornando mais fácil conquistar investidores, clientes e parceiros.
+                    👉 Apresente seus projetos com o impacto que eles merecem. Solicite sua apresentação em vídeo agora mesmo.`
+                },
+                {
+                    thumbnail: "assets/images/foto.tom.jpg", // Miniatura do Projeto D
+                    media_type: "video", // Exemplo de vídeo
+                    media_url: "assets/videos/video.tom.mp4", // Vídeo do Projeto D
+                    title: "Vídeos IA a Partir de Fotos",
+                    description: `Com apenas uma imagem estática, conseguimos gerar cenas com personagens interagindo, animações realistas e qualidade visual ampliada. Esta tecnologia é ideal para transformar catálogos, portfólios, fotos de produtos ou até mesmo momentos simples em conteúdo altamente compartilhável e profissional.
+                    👉 Tem uma foto e quer ver ela ganhar vida? Envie pra gente e descubra o que podemos criar com ela.`
                 }
-            })
-            .then(response => {
-                if (response.ok) {
-                    successModal.style.display = 'flex';
-                    contactForm.reset();
-                } else {
-                    // Lidar com erros de envio
-                    alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
-            });
-            */
-        });
+            ];
 
-        // Este modal de sucesso e sua lógica de fechar só serão relevantes
-        // se você implementar o envio do formulário via fetch() e não o envio direto.
-        // Se o formulário redirecionar, este modal não será exibido.
-        closeButton.addEventListener('click', function() {
-            successModal.style.display = 'none';
-        });
-
-        window.addEventListener('click', function(event) {
-            if (event.target == successModal) {
-                successModal.style.display = 'none';
-            }
-        });
-
-        // Lógica para rolagem suave dos itens do menu
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                document.getElementById(targetId).scrollIntoView({
-                    behavior: 'smooth'
+            // Função para rolagem suave
+            const heroButton = document.getElementById('hero-button');
+            if (heroButton) {
+                heroButton.addEventListener('click', function() {
+                    document.getElementById('contact_form').scrollIntoView({ behavior: 'smooth' });
                 });
-                // Fechar o menu mobile se estiver aberto
-                const mobileMenu = document.getElementById('mobile-menu');
-                const menuOverlay = document.getElementById('menu-overlay');
-                mobileMenu.classList.remove('open');
-                menuOverlay.classList.remove('active');
-            });
-        });
-
-        // Lógica do Modal do Portfólio
-        const portfolioModal = document.getElementById('portfolioModal');
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        const modalPortfolioMediaContainer = document.getElementById('modal-portfolio-media-container');
-        const modalPortfolioTitle = document.getElementById('modal-portfolio-title');
-        const modalPortfolioDescription = document.getElementById('modal-portfolio-description');
-        const portfolioCloseButton = document.querySelector('.portfolio-close-button');
-
-        // Adiciona evento de clique a cada item do portfólio
-        portfolioItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const index = parseInt(this.dataset.index); // Obtém o índice do item clicado
-                const project = portfolioItemsData[index]; // Pega os dados do projeto
-
-                // Limpa o conteúdo anterior do contêiner de mídia
-                modalPortfolioMediaContainer.innerHTML = '';
-
-                // Cria e adiciona a mídia (imagem ou vídeo) dinamicamente
-                // As classes w-full e h-auto garantem que a mídia se ajuste ao contêiner
-                // object-cover (ou similar) pode ser usado para preencher o espaço mantendo a proporção
-                if (project.media_type === "image") {
-                    const img = document.createElement('img');
-                    img.src = project.media_url;
-                    img.alt = project.title;
-                    img.classList.add('rounded-lg', 'mb-4', 'md:mb-0', 'w-full', 'h-auto', 'object-cover'); // Adicionado object-cover
-                    modalPortfolioMediaContainer.appendChild(img);
-                } else if (project.media_type === "video") {
-                    const video = document.createElement('video');
-                    video.src = project.media_url;
-                    video.controls = true;
-                    video.autoplay = true;
-                    video.loop = true;
-                    video.muted = true;
-                    video.classList.add('rounded-lg', 'mb-4', 'md:mb-0', 'w-full', 'h-auto', 'object-cover'); // Adicionado object-cover
-                    modalPortfolioMediaContainer.appendChild(video);
-                }
-
-                // Preenche o modal com os dados do projeto
-                modalPortfolioTitle.textContent = project.title;
-                modalPortfolioDescription.textContent = project.description;
-
-                portfolioModal.style.display = 'flex'; // Exibe o modal
-            });
-        });
-
-        // Fecha o modal do portfólio ao clicar no 'x'
-        portfolioCloseButton.addEventListener('click', function() {
-            portfolioModal.style.display = 'none';
-        });
-
-        // Fecha o modal do portfólio ao clicar fora dele
-        window.addEventListener('click', function(event) {
-            if (event.target == portfolioModal) {
-                portfolioModal.style.display = 'none';
             }
-        });
 
-        // Lógica para o menu mobile
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeMobileMenuButton = document.getElementById('close-menu-button');
-        const menuOverlay = document.getElementById('menu-overlay');
 
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.add('open');
-            menuOverlay.classList.add('active');
-        });
+            // Lógica do formulário de contato e modal de sucesso
+            const contactForm = document.getElementById('contactForm');
+            const successModal = document.getElementById('successModal');
+            const closeButton = document.querySelector('#successModal .close-button'); // Seleciona o botão de fechar do modal de sucesso
 
-        closeMobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-            menuOverlay.classList.remove('active');
-        });
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(event) {
+                    // REMOVIDO: event.preventDefault(); // Não previne mais o envio padrão do formulário
+                    // O Formspree irá lidar com o envio e o redirecionamento.
 
-        menuOverlay.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-            menuOverlay.classList.remove('active');
-        });
+                    // A lógica do modal de sucesso e reset do formulário abaixo só será executada
+                    // se você implementar o envio via fetch() para o Formspree e não o envio direto do formulário.
+                    // Para o envio direto, o Formspree redirecionará a página.
+
+                    // Se você quiser manter este modal de sucesso personalizado,
+                    // precisará reativar event.preventDefault() e usar a API Fetch para enviar os dados
+                    // para o Formspree em segundo plano.
+                    // Exemplo:
+                    /*
+                    event.preventDefault();
+                    const formData = new FormData(contactForm);
+                    fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            successModal.style.display = 'flex';
+                            contactForm.reset();
+                        } else {
+                            // Lidar com erros de envio
+                            alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
+                    });
+                    */
+                });
+            }
+
+
+            // Este modal de sucesso e sua lógica de fechar só serão relevantes
+            // se você implementar o envio do formulário via fetch() e não o envio direto.
+            // Se o formulário redirecionar, este modal não será exibido.
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    successModal.style.display = 'none';
+                });
+            }
+
+
+            window.addEventListener('click', function(event) {
+                if (event.target == successModal) {
+                    successModal.style.display = 'none';
+                }
+            });
+
+            // Lógica para rolagem suave dos itens do menu
+            // Seleciona todos os links DENTRO do menu mobile
+            document.querySelectorAll('#mobile-menu a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Não prevenir o comportamento padrão para permitir a navegação e o fechamento
+                    // O scrollIntoView já cuida do comportamento suave
+                    // e.preventDefault(); // Removido para permitir que o href funcione naturalmente
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+
+                    // Fechar o menu mobile e o overlay APÓS um pequeno atraso para o scroll iniciar
+                    setTimeout(() => {
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        const menuOverlay = document.getElementById('menu-overlay');
+                        if (mobileMenu) mobileMenu.classList.remove('open');
+                        if (menuOverlay) menuOverlay.classList.remove('active');
+                    }, 300); // Pequeno atraso para o scroll começar
+                });
+            });
+
+            // Lógica do Modal do Portfólio
+            const portfolioModal = document.getElementById('portfolioModal');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const modalPortfolioMediaContainer = document.getElementById('modal-portfolio-media-container');
+            const modalPortfolioTitle = document.getElementById('modal-portfolio-title');
+            const modalPortfolioDescription = document.getElementById('modal-portfolio-description');
+            const portfolioCloseButton = document.querySelector('.portfolio-close-button');
+
+            // Adiciona evento de clique a cada item do portfólio
+            if (portfolioItems) {
+                portfolioItems.forEach(item => {
+                    const index = parseInt(item.dataset.index); // Obtém o índice do item clicado
+                    const project = portfolioItemsData[index]; // Pega os dados do projeto
+
+                    item.addEventListener('click', function() {
+                        // Limpa o conteúdo anterior do contêiner de mídia
+                        if (modalPortfolioMediaContainer) {
+                            modalPortfolioMediaContainer.innerHTML = '';
+                        }
+
+                        // Cria e adiciona a mídia (imagem ou vídeo) dinamicamente
+                        // As classes w-full e h-auto garantem que a mídia se ajuste ao contêiner
+                        // object-cover (ou similar) pode ser usado para preencher o espaço mantendo a proporção
+                        if (project.media_type === "image") {
+                            const img = document.createElement('img');
+                            img.src = project.media_url;
+                            img.alt = project.title;
+                            img.classList.add('rounded-lg', 'mb-4', 'md:mb-0', 'w-full', 'h-auto', 'object-cover'); // Adicionado object-cover
+                            if (modalPortfolioMediaContainer) modalPortfolioMediaContainer.appendChild(img);
+                        } else if (project.media_type === "video") {
+                            const video = document.createElement('video');
+                            video.src = project.media_url;
+                            video.controls = true;
+                            video.autoplay = true;
+                            video.loop = true;
+                            video.muted = true;
+                            video.classList.add('rounded-lg', 'mb-4', 'md:mb-0', 'w-full', 'h-auto', 'object-cover'); // Adicionado object-cover
+                            if (modalPortfolioMediaContainer) modalPortfolioMediaContainer.appendChild(video);
+                        }
+
+                        // Preenche o modal com os dados do projeto
+                        if (modalPortfolioTitle) modalPortfolioTitle.textContent = project.title;
+                        if (modalPortfolioDescription) modalPortfolioDescription.textContent = project.description;
+
+                        if (portfolioModal) portfolioModal.style.display = 'flex'; // Exibe o modal
+                    });
+                });
+            }
+
+
+            // Fecha o modal do portfólio ao clicar no 'x'
+            if (portfolioCloseButton) {
+                portfolioCloseButton.addEventListener('click', function() {
+                    if (portfolioModal) portfolioModal.style.display = 'none';
+                });
+            }
+
+
+            window.addEventListener('click', function(event) {
+                if (event.target == portfolioModal) {
+                    if (portfolioModal) portfolioModal.style.display = 'none';
+                }
+            });
+
+            // Lógica para o menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMobileMenuButton = document.getElementById('close-menu-button');
+            const menuOverlay = document.getElementById('menu-overlay');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    if (mobileMenu) mobileMenu.classList.add('open');
+                    if (menuOverlay) menuOverlay.classList.add('active');
+                });
+            }
+
+
+            if (closeMobileMenuButton) {
+                closeMobileMenuButton.addEventListener('click', function() {
+                    if (mobileMenu) mobileMenu.classList.remove('open');
+                    if (menuOverlay) menuOverlay.classList.remove('active');
+                });
+            }
+
+
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', function() {
+                    if (mobileMenu) mobileMenu.classList.remove('open');
+                    if (menuOverlay) menuOverlay.classList.remove('active');
+                });
+            }
+        }); // Fim do DOMContentLoaded
     </script>
 </body>
 </html>
